@@ -11,7 +11,8 @@ export function Input({ ...rest }: InputProps) {
 	return (
 		<S.Container>
 			<S.TextInput 
-				placeholderTextColor={colors.gray300} 
+				placeholderTextColor={colors.gray300}
+				selectTextOnFocus
 				{...rest} 
 			/>
 		</S.Container>

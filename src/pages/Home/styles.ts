@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { colors } from "../../styles/colors";
 import { fonts } from "../../styles/fonts";
+import { RectButton } from "react-native-gesture-handler";
 
 export const Container = styled(SafeAreaView)`
 	flex: 1;
@@ -12,6 +13,12 @@ export const Container = styled(SafeAreaView)`
 `
 
 export const UserContainer = styled.View`
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+`
+
+export const UserInfo = styled.View`
 	flex-direction: row;
 	align-items: center;
 `
@@ -37,6 +44,11 @@ export const UserName = styled.Text`
 	font-family: ${fonts.DMSans400};
 	color: ${colors.gray900};
 	line-height: 21px;
+`
+
+export const LogoutButton = styled(RectButton)`
+	padding: 10px;
+	border-radius: 20px;
 `
 
 export const SearchPersonal = styled.View`

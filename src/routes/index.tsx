@@ -9,9 +9,7 @@ import { useAuth } from '../hooks/useAuth'
 import { colors } from '../styles/colors'
 
 export function Routes() {
-	// const { user, loading } = useAuth()
-	const loading = false
-	const user = {}
+	const { user, loading } = useAuth()
 
 	if (loading) {
 		return (
