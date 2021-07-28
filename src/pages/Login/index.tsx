@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigation } from '@react-navigation/native'
 
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
@@ -8,6 +9,8 @@ import logoImg from '../../assets/logo.png'
 import * as S from './styles'
 
 export function Login() {
+
+	const navigation = useNavigation()
 
 	return (
 		<S.Container>
@@ -30,7 +33,7 @@ export function Login() {
 				Login
 			</Button>
 
-			<S.RegisterButton>
+			<S.RegisterButton onPress={() => navigation.navigate('Register')}>
 				<S.RegisterButtonText>
 					Não tem conta?{' '}
 					<S.RegisterButtonBoldText>
