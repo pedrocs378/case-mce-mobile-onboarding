@@ -19,7 +19,7 @@ export function Login() {
 			<Input placeholder="Login" />
 			<Input placeholder="Senha" />
 
-			<S.ForgotPasswordButton>
+			<S.ForgotPasswordButton onPress={() => navigation.navigate('ForgotPassword')}>
 				<S.ForgotPasswordText>
 					Esqueci minha senha
 				</S.ForgotPasswordText>

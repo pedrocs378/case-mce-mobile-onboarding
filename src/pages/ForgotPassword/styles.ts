@@ -15,10 +15,18 @@ export const Container = styled(SafeAreaView)`
 	background: ${colors.white};
 `
 
-export const LogoImage = styled.Image`
-	width: 177px;
-	height: 114px;
-	margin-bottom: 50px;
+export const Title = styled.Text`
+	font-family: ${fonts.WorkSans400};
+	font-size: 24px;
+	color: ${colors.gray900};
+`
+
+export const Description = styled.Text`
+	font-family: ${fonts.WorkSans400};
+	color: ${colors.gray500};
+	font-size: 14px;
+
+	margin: 17px 0 75px;
 `
 
 export const LoginButton = styled.TouchableOpacity`
