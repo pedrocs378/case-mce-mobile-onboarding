@@ -12,6 +12,10 @@ export function Login() {
 
 	const navigation = useNavigation()
 
+	function handleLogin() {
+		navigation.navigate('Home')
+	}
+
 	return (
 		<S.Container>
 			<S.LogoImage source={logoImg} />
@@ -26,6 +30,7 @@ export function Login() {
 			</S.ForgotPasswordButton>
 
 			<Button
+				onPress={handleLogin}
 				style={{
 					marginTop: 94
 				}}

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, ActivityIndicator } from 'react-native'
 
-import { AppRoutes } from './app.routes'
+import { AppStackRoutes } from './app.stack.routes'
 import { AuthRoutes } from './auth.routes'
 
 import { useAuth } from '../hooks/useAuth'
@@ -9,7 +9,9 @@ import { useAuth } from '../hooks/useAuth'
 import { colors } from '../styles/colors'
 
 export function Routes() {
-	const { user, loading } = useAuth()
+	// const { user, loading } = useAuth()
+	const loading = false
+	const user = {}
 
 	if (loading) {
 		return (
@@ -19,5 +21,5 @@ export function Routes() {
 		)
 	}
 
-	return user ? <AppRoutes /> : <AuthRoutes />
+	return user ? <AppStackRoutes /> : <AuthRoutes />
 }
