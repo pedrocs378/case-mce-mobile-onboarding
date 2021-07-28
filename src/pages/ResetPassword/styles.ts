@@ -15,16 +15,18 @@ export const Container = styled(SafeAreaView)`
 	background: ${colors.white};
 `
 
-export const LoginButton = styled.TouchableOpacity`
-	margin-top: 36px;
+export const Title = styled.Text`
+	font-family: ${fonts.WorkSans400};
+	font-size: 24px;
+	color: ${colors.gray900};
 `
 
-export const LoginButtonText = styled.Text`
-	color: ${colors.gray800};
-	font-family: ${fonts.DMSans500};
-	font-size: 16px;
-`
+export const Description = styled.Text`
+	font-family: ${fonts.WorkSans400};
+	color: ${colors.gray500};
+	font-size: 14px;
+	text-align: center;
+	line-height: 21px;
 
-export const LoginButtonBoldText = styled.Text`
-	font-family: ${fonts.DMSans700};
+	margin: 17px 0 96px;
 `

@@ -25,6 +25,8 @@ export const Description = styled.Text`
 	font-family: ${fonts.WorkSans400};
 	color: ${colors.gray500};
 	font-size: 14px;
+	text-align: center;
+	line-height: 21px;
 
 	margin: 17px 0 75px;
 `
