@@ -25,7 +25,7 @@ export function Login() {
 				password
 			})
 		} catch (err) {
-			let message = 'Não foi possível salvar alguma informação, tente relogar o app.'
+			let message = 'Não foi possível realizar o login, tente reiniciar o app.'
 
 			if (err.response.data.message) {
 				message = err.response.data.message
