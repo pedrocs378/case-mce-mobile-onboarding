@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { Feather } from '@expo/vector-icons'
 
 import { colors } from '../../styles/colors'
@@ -20,8 +21,14 @@ type PersonalCardProps = {
 
 export function PersonalCard({ personal, scheduled, timePeriod }: PersonalCardProps) {
 
+	const navigation = useNavigation()
+
+	const handleGoToPersonalDetails = useCallback(() => {
+		navigation.navigate('PersonalDetails', { id: personal.id })
+	}, [personal.id])
+
 	return (
-		<S.Container>
+		<S.Container onPress={handleGoToPersonalDetails}>
 			<S.PersonalAvatar 
 				source={{ uri: 'https://avatars.githubusercontent.com/u/53832604?v=4' }}
 			/>

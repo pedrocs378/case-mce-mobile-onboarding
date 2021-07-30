@@ -1,9 +1,9 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { AppTabsRoutes } from './app.tabs.routes'
+import { PersonalDetails } from '../pages/PersonalDetails'
 
-import { Home } from '../pages/Home'
+import { AppTabsRoutes } from './app.tabs.routes'
 
 const { Navigator, Screen } = createStackNavigator()
 
@@ -16,6 +16,7 @@ export function AppStackRoutes() {
 			}}
 		>
 			<Screen name="AppTabs" component={AppTabsRoutes} />
+			<Screen name="PersonalDetails" component={PersonalDetails} />
 		</Navigator>
 	)
 }
