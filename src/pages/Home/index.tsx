@@ -3,6 +3,7 @@ import { FlatList } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 import Toast from 'react-native-toast-message'
 
+import { LoadScreen } from '../../components/LoadScreen'
 import { SearchInput } from '../../components/SearchInput'
 import { PersonalCard } from '../../components/PersonalCard'
 
@@ -21,10 +22,13 @@ type User = {
 
 export function Home() {
 	const [providers, setProviders] = useState<User[]>([])
+	const [isLoading, setIsLoading] = useState(false)
 
 	const { user, signOut } = useAuth()
 
 	useEffect(() => {
+		setIsLoading(true)
+
 		api.get<User[]>('/providers').then(response => {
 			setProviders(response.data)
 		}).catch(err => {
@@ -40,8 +44,10 @@ export function Home() {
 				text1: 'Erro',
 				text2: message
 			})
-		})
+		}).finally(() => setIsLoading(false))
 	}, [])
+
+	if (isLoading) return <LoadScreen />
 
 	return (
 		<S.Container>

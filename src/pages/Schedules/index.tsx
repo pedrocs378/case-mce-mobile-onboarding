@@ -3,6 +3,7 @@ import { FlatList } from 'react-native'
 import Toast from 'react-native-toast-message'
 import { addHours } from 'date-fns'
 
+import { LoadScreen } from '../../components/LoadScreen'
 import { Header } from '../../components/Header'
 import { SearchInput } from '../../components/SearchInput'
 import { PersonalCard } from '../../components/PersonalCard'
@@ -31,8 +32,11 @@ export type ScheduleItem = ScheduleResponse & {
 
 export function Schedules() {
 	const [schedules, setSchedules] = useState<ScheduleItem[]>([])
+	const [isLoading, setIsLoading] = useState(false)
 
 	useEffect(() => {
+		setIsLoading(true)
+
 		api.get<ScheduleResponse[]>('/appointments/me').then(response => {
 			const data = response.data.map(schedule => {
 				const initialHour = new Date(schedule.date).getHours()
@@ -58,8 +62,10 @@ export function Schedules() {
 				text1: 'Erro',
 				text2: message
 			})
-		})
+		}).finally(() => setIsLoading(false))
 	}, [])
+
+	if (isLoading) return <LoadScreen />
 
 	return (
 		<S.Container>

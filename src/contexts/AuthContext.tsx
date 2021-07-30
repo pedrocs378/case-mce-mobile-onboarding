@@ -39,7 +39,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 	useEffect(() => {
 		async function loadStoragedData(): Promise<void> {
-			const [user, token] = await AsyncStorage.multiGet(['@Mindeducation:user', '@Mindeducation:token'])
+			const [user, token] = await AsyncStorage.multiGet(['@CaseMCE:user', '@CaseMCE:token'])
 
 			if (token[1] && user[1]) {
 				api.defaults.headers.authorization = `Bearer ${token[1]}`
@@ -62,41 +62,22 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		api.defaults.headers.authorization = `Bearer ${response.data.token}`
 
 		setUser(response.data.user)
-
-		try {
-			await AsyncStorage.setItem('@Mindeducation:user', JSON.stringify(response.data.user))
-			await AsyncStorage.setItem('@Mindeducation:token', JSON.stringify(response.data.token))
-		} catch {
-			Toast.show({
-				type: 'error',
-				position: 'bottom',
-				text1: 'Erro',
-				text2: 'Não foi possível salvar alguma informação, tente relogar o app.'
-			})
-		}
+		await AsyncStorage.setItem('@CaseMCE:user', JSON.stringify(response.data.user))
+		await AsyncStorage.setItem('@CaseMCE:token', response.data.token)
 
 		return response.data.user
 	}, [])
 
 	const signOut = useCallback(async () => {
-		try {
-			await AsyncStorage.removeItem('@Mindeducation:user')
-			await AsyncStorage.removeItem('@Mindeducation:token')
+		await AsyncStorage.removeItem('@CaseMCE:user')
+		await AsyncStorage.removeItem('@CaseMCE:token')
 
-			setUser(undefined)
-		} catch {
-			Toast.show({
-				type: 'error',
-				position: 'bottom',
-				text1: 'Erro',
-				text2: 'Não foi possível salvar alguma informação, tente relogar o app.'
-			})
-		}
+		setUser(undefined)
 	}, [])
 
 	const updateUserData = useCallback(async (data: User) => {
 		setUser(data)
-		await AsyncStorage.setItem('@Mindeducation:user', JSON.stringify(data))
+		await AsyncStorage.setItem('@CaseMCE:user', JSON.stringify(data))
 	}, [])
 
 	return (
