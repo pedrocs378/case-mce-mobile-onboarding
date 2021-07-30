@@ -76,3 +76,11 @@ export const SearchPersonalInput = styled.TextInput`
 	font-family: ${fonts.DMSans400};
 	font-size: 15px;
 `
+
+export const ProvidersText = styled.Text`
+	font-family: ${fonts.WorkSans400};
+	font-size: 20px;
+	color: ${colors.gray900};
+
+	margin-bottom: 25px;
+`

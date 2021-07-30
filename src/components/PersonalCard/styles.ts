@@ -47,5 +47,5 @@ export const ScheduleTime = styled.Text`
 	color: ${colors.gray350};
 	font-family: ${fonts.DMSans400};
 
-	margin-left: 10px;
+	margin-left: 4px;
 `

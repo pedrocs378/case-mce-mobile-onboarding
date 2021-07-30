@@ -1,4 +1,7 @@
 import React from 'react'
+import { Feather } from '@expo/vector-icons'
+
+import { colors } from '../../styles/colors'
 
 import * as S from './styles'
 
@@ -29,7 +32,18 @@ export function PersonalCard({ personal, scheduled, timePeriod }: PersonalCardPr
 				<S.ScheduleInfo>
 					<S.ScheduleStatus>{scheduled ? "Agendado" : "Atendendo"}</S.ScheduleStatus>
 				
-					<S.ScheduleTime>{timePeriod}</S.ScheduleTime>
+					<Feather 
+						name="clock" 
+						color={colors.gray350} 
+						size={11}
+						style={{
+							marginLeft: 10
+						}}
+					/>
+
+					<S.ScheduleTime>
+						{timePeriod}
+					</S.ScheduleTime>
 				</S.ScheduleInfo>
 			</S.PersonalInfo>
 		</S.Container>
