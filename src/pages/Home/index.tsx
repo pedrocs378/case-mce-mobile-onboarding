@@ -1,10 +1,9 @@
 import React from 'react'
-import { View } from 'react-native'
 import { Feather } from '@expo/vector-icons'
 
-import { useAuth } from '../../hooks/useAuth'
+import { SearchInput } from '../../components/SearchInput'
 
-import { colors } from '../../styles/colors'
+import { useAuth } from '../../hooks/useAuth'
 
 import * as S from './styles'
 
@@ -29,15 +28,7 @@ export function Home() {
 				</S.LogoutButton>
 			</S.UserContainer>
 
-			<S.SearchPersonal>
-				<Feather name="search" color={colors.gray300} size={14} />
-				
-				<S.SearchPersonalInput 
-					placeholder="Pesquisar..." 
-					placeholderTextColor={colors.gray300}
-					selectTextOnFocus
-				/>
-			</S.SearchPersonal>
+			<SearchInput />
 		</S.Container>
 	)
 }
