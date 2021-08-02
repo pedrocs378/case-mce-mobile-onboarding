@@ -16,7 +16,7 @@ type User = {
 	id: string
 	name: string
 	phone: string
-	avatar?: string
+	avatar_url?: string
 }
 
 type ScheduleResponse = {

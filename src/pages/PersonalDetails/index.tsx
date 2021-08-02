@@ -42,7 +42,7 @@ export function PersonalDetails() {
 
 	const { params } = useRoute()
 	const { id } = params as RouteParams
-
+	
 	const navigation = useNavigation()
 
 	useEffect(() => {
