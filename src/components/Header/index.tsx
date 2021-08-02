@@ -6,15 +6,16 @@ import * as S from './styles'
 
 type HeaderProps = {
 	title: string
+	backTo?: string
 }
 
-export function Header({ title }: HeaderProps) {
+export function Header({ title, backTo = 'Home' }: HeaderProps) {
 
 	const navigation = useNavigation()
 
 	return (
 		<S.Container>
-			<S.ButtonBack onPress={() => navigation.navigate("Home")}>
+			<S.ButtonBack onPress={() => navigation.navigate(backTo)}>
 				<Ionicons name="ios-chevron-back" size={18} />
 			</S.ButtonBack>
 

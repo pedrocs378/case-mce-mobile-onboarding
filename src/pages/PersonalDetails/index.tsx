@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FlatList } from 'react-native'
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import Toast from 'react-native-toast-message'
 import { format, addHours } from 'date-fns'
@@ -40,6 +40,8 @@ export function PersonalDetails() {
 
 	const { params } = useRoute()
 	const { id } = params as RouteParams
+
+	const navigation = useNavigation()
 
 	useEffect(() => {
 		setIsLoading(true)
@@ -117,7 +119,9 @@ export function PersonalDetails() {
 					/>
 				</S.PersonalInfos>
 
-				<Button>Agendar agora</Button>
+				<Button onPress={() => navigation.navigate('CreateSchedule', { id })}>
+					Agendar agora
+				</Button>
 			</S.Content>
 		</S.Container>
 	)
