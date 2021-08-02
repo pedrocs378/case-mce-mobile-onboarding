@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
-import { Ionicons, Feather } from '@expo/vector-icons'
+import { ScrollView } from 'react-native'
+import * as ImagePicker from 'expo-image-picker'
+import { openPicker } from 'react-native-image-crop-picker'
+import Toast from 'react-native-toast-message'
+import { Feather } from '@expo/vector-icons'
 
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
+import { Header } from '../../components/Header'
 
 import { useAuth } from '../../hooks/useAuth'
+
+import { api } from '../../services/api'
+
+import userPlaceholderImg from '../../assets/user-placeholder.png'
 
 import { colors } from '../../styles/colors'
 
 import * as S from './styles'
-import { ScrollView } from 'react-native'
-import { api } from '../../services/api'
-import Toast from 'react-native-toast-message'
-import { Header } from '../../components/Header'
 
 export function Profile() {
 	const { user, updateUserData } = useAuth()
@@ -23,8 +27,6 @@ export function Profile() {
 	const [email, setEmail] = useState(user?.email ?? '')
 	const [password, setPassword] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
-
-	const navigation = useNavigation()
 
 	async function handleUpdateUser() {
 		try {
@@ -67,6 +69,41 @@ export function Profile() {
 		}
 	}
 
+	const handleUpdateAvatar = async () => {
+		const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync()
+
+		if (permissionResult.granted === false) {
+			alert('Necessário aceitar permissão para acessar as fotos')
+			return
+		}
+
+		const result = await ImagePicker.launchImageLibraryAsync({ 
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+		})
+
+		if (!result.cancelled) {
+			const filename = result.uri.substring(result.uri.lastIndexOf('/') + 1)
+			const data = new FormData()
+
+			data.append('avatar', {
+				type: 'image/jpeg',
+				uri: result.uri,
+				name: filename
+			})
+
+			const response = await api.patch('/users/avatar', data)
+
+			updateUserData(response.data)
+
+			Toast.show({
+				type: 'success',
+				position: 'top',
+				text1: 'Sucesso',
+				text2: `Avatar atualizado`
+			})
+		}
+	}
+
 	return (
 		<ScrollView showsVerticalScrollIndicator={false}>
 			<S.Container>
@@ -75,11 +112,14 @@ export function Profile() {
 				<S.Content>
 					<S.AvatarContainer>
 						<S.UserAvatar 
-							source={{ uri: 'https://avatars.githubusercontent.com/u/53832604?v=4' }} 
+							source={user?.avatar_url ? { uri: user.avatar_url } : userPlaceholderImg} 
 						/>
 
 						<S.ChangeAvatarWrapper>
-							<S.ChangeAvatarButton style={{ borderWidth: 2 }}>
+							<S.ChangeAvatarButton 
+								style={{ borderWidth: 2 }}
+								onPress={handleUpdateAvatar}
+							>
 								<Feather name="camera" size={16} color={colors.white} />
 							</S.ChangeAvatarButton>
 						</S.ChangeAvatarWrapper>

@@ -1,6 +1,5 @@
 import React, { createContext, ReactNode, useState, useEffect, useCallback } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import Toast from 'react-native-toast-message'
 
 import { api } from "../services/api";
 
@@ -12,6 +11,7 @@ interface User {
 	phone: string
 	email: string
 	accessLevel: AccessLevelTypes[]
+	avatar_url?: string
 }
 
 interface SignInCredentials {

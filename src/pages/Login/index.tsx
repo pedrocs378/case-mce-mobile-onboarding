@@ -54,7 +54,6 @@ export function Login() {
 			/>
 			<Input
 				placeholder="Senha"
-				passwordRules="minlength: 5;"
 				secureTextEntry
 				autoCompleteType="password"
 				value={password}

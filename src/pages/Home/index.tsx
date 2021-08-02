@@ -11,6 +11,8 @@ import { useAuth } from '../../hooks/useAuth'
 
 import { api } from '../../services/api'
 
+import userPlaceholderImg from '../../assets/user-placeholder.png'
+
 import * as S from './styles'
 
 type User = {
@@ -53,7 +55,7 @@ export function Home() {
 		<S.Container>
 			<S.UserContainer>
 				<S.UserInfo>
-					<S.UserAvatar source={{ uri: 'https://avatars.githubusercontent.com/u/53832604?v=4' }} />
+					<S.UserAvatar source={user?.avatar_url ? { uri: user.avatar_url } : userPlaceholderImg} />
 					
 					<S.UserWelcome>
 						<S.WelcomeText>Bem-vindo</S.WelcomeText>
