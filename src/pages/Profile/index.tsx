@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
-import { openPicker } from 'react-native-image-crop-picker'
 import Toast from 'react-native-toast-message'
 import { Feather } from '@expo/vector-icons'
 
@@ -82,25 +81,40 @@ export function Profile() {
 		})
 
 		if (!result.cancelled) {
-			const filename = result.uri.substring(result.uri.lastIndexOf('/') + 1)
-			const data = new FormData()
+			try {
+				const filename = result.uri.substring(result.uri.lastIndexOf('/') + 1)
+				const data = new FormData()
 
-			data.append('avatar', {
-				type: 'image/jpeg',
-				uri: result.uri,
-				name: filename
-			})
+				data.append('avatar', {
+					type: 'image/jpeg',
+					uri: result.uri,
+					name: filename
+				})
 
-			const response = await api.patch('/users/avatar', data)
+				const response = await api.patch('/users/avatar', data)
 
-			updateUserData(response.data)
+				updateUserData(response.data)
 
-			Toast.show({
-				type: 'success',
-				position: 'top',
-				text1: 'Sucesso',
-				text2: `Avatar atualizado`
-			})
+				Toast.show({
+					type: 'success',
+					position: 'top',
+					text1: 'Sucesso',
+					text2: `Avatar atualizado`
+				})
+			} catch (err) {
+				let message = 'Algo deu errado ao tentar atualizar o avatar.'
+
+				if (err.response.data.message) {
+					message = err.response.data.message
+				}
+
+				Toast.show({
+					type: 'error',
+					position: 'top',
+					text1: 'Erro',
+					text2: message
+				})
+			}
 		}
 	}
 
