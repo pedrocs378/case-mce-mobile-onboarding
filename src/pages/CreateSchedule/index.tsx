@@ -114,10 +114,9 @@ export function CreateSchedule() {
 							formatedHour: format(currentHour, "HH:mm'h'")
 						}
 					})
-				console.log(response.data)
 
 				setAvailableHours(hours)
-				setSelectedHour(hours[0].hour)
+				setSelectedHour(hours[0]?.hour)
 			})
 	}, [dateString, provider_id])
 

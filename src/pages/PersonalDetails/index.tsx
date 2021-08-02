@@ -11,6 +11,8 @@ import { Button } from '../../components/Button'
 
 import { api } from '../../services/api'
 
+import userPlaceholderImg from '../../assets/user-placeholder.png'
+
 import { colors } from '../../styles/colors'
 
 import * as S from './styles'
@@ -26,7 +28,7 @@ type Personal = {
 	id: string
 	name: string
 	phone: string
-	avatar?: string
+	avatar_url?: string
 	appointments: Schedule[]
 }
 
@@ -89,7 +91,7 @@ export function PersonalDetails() {
 	return (
 		<S.Container>
 			<S.PersonalPhoto 
-				source={{ uri: 'https://avatars.githubusercontent.com/u/53832604?v=4' }}
+				source={personal.avatar_url ? { uri: personal.avatar_url } : userPlaceholderImg}
 			/>
 
 			<S.Content>

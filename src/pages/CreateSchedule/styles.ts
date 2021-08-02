@@ -1,6 +1,7 @@
-import styled, { css } from "styled-components/native";
+import styled from "styled-components/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { RectButton } from "react-native-gesture-handler";
+import { Dimensions } from 'react-native'
 
 import { colors } from "../../styles/colors";
 import { fonts } from "../../styles/fonts";
@@ -72,7 +73,6 @@ export const AvailableText = styled.Text`
 export const AvailableButtonsContainer = styled.View`
 	flex-direction: row;
 	align-items: center;
-	justify-content: space-between;
 	flex-wrap: wrap;
 `
 
@@ -81,10 +81,11 @@ type AvailabilityButtonProps = {
 }
 
 export const AvailabilityButton = styled(RectButton)<AvailabilityButtonProps>`
-	width: 70px;
+	width: ${(Dimensions.get('window').width / 4) - 25}px;
 	height: 40px;
 	border-radius: 8px;
 	margin-top: 10px;
+	margin-right: 10px;
 
 	align-items: center;
 	justify-content: center;

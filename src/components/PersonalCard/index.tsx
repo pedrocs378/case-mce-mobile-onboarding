@@ -2,6 +2,8 @@ import React, { useCallback } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { Feather } from '@expo/vector-icons'
 
+import userPlaceholderImg from '../../assets/user-placeholder.png'
+
 import { colors } from '../../styles/colors'
 
 import * as S from './styles'
@@ -10,7 +12,7 @@ type User = {
 	id: string
 	name: string
 	phone: string
-	avatar?: string
+	avatar_url?: string
 }
 
 type PersonalCardProps = {
@@ -30,7 +32,7 @@ export function PersonalCard({ personal, scheduled, timePeriod }: PersonalCardPr
 	return (
 		<S.Container onPress={handleGoToPersonalDetails}>
 			<S.PersonalAvatar 
-				source={{ uri: 'https://avatars.githubusercontent.com/u/53832604?v=4' }}
+				source={personal.avatar_url ? { uri: personal.avatar_url } : userPlaceholderImg}
 			/>
 
 			<S.PersonalInfo>

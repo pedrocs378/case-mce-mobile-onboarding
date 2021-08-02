@@ -15,15 +15,15 @@ import userPlaceholderImg from '../../assets/user-placeholder.png'
 
 import * as S from './styles'
 
-type User = {
+type Provider = {
 	id: string
 	name: string
 	phone: string
-	avatar?: string
+	avatar_url?: string
 }
 
 export function Home() {
-	const [providers, setProviders] = useState<User[]>([])
+	const [providers, setProviders] = useState<Provider[]>([])
 	const [isLoading, setIsLoading] = useState(false)
 
 	const { user, signOut } = useAuth()
@@ -31,7 +31,7 @@ export function Home() {
 	useEffect(() => {
 		setIsLoading(true)
 
-		api.get<User[]>('/providers').then(response => {
+		api.get<Provider[]>('/providers').then(response => {
 			setProviders(response.data)
 		}).catch(err => {
 			let message = 'Algo deu errado ao tentar carregar as informações.'
