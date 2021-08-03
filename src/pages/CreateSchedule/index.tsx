@@ -56,7 +56,7 @@ export function CreateSchedule() {
 		try {
 			const [year, month, day] = dateString.split('-')
 
-			const date = new Date(Number(year), Number(month), Number(day), selectedHour)
+			const date = new Date(Number(year), Number(month) - 1, Number(day), selectedHour)
 
 			await api.post('/appointments', {
 				provider_id,
