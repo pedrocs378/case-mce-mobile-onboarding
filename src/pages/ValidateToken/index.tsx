@@ -13,9 +13,8 @@ type RouteParams = {
 	email: string
 }
 
-export function ResetPassword() {
-	const [password, setPassword] = useState('')
-	const [password_confirmation, setPasswordConfirmation] = useState('')
+export function ValidateToken() {
+	const [token, setToken] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 
 	const { params } = useRoute()
@@ -23,29 +22,25 @@ export function ResetPassword() {
 
 	const navigation = useNavigation()
 
-	const handleResetPassword = async () => {
+	const handleSendToken = async () => {
 		setIsLoading(true)
 
 		try {
-			await api.post('/password/reset', {
+			await api.post('/password/validate_token', {
 				email,
-				password,
-				password_confirmation
+				token
 			})
 
-			navigation.reset({
-				index: 0,
-				routes: [{ name: 'Login' }]
-			})
+			navigation.navigate('ResetPassword', { email })
 
 			Toast.show({
 				type: 'success',
 				position: 'top',
 				text1: 'Sucesso',
-				text2: 'Sua senha foi alterada'
+				text2: 'Token validado'
 			})
 		} catch (err) {
-			let message = 'Algo deu errado ao tentar criar nova senha.'
+			let message = 'Algo deu errado ao tentar validar o token.'
 
 			if (err.response.data.message) {
 				message = err.response.data.message
@@ -64,36 +59,30 @@ export function ResetPassword() {
 
 	return (
 		<S.Container>
-			<S.Title>Criar nova senha</S.Title>
+			<S.Title>Validar token</S.Title>
 
 			<S.Description>
-				Sua senha deve ser diferente da {'\n'}
-				senha antiga
+				Nós enviamos no seu e-mail um token para válidar {'\n'}
+				que é mesmo você. {'\n'}
+				Por favor, insira ele abaixo para que possamos verificar.
 			</S.Description>
 			
 			<Input 
-				placeholder="Senha"
-				secureTextEntry
-				autoCompleteType="password"
-				value={password}
-				onChangeText={text => setPassword(text)}
-			/>
-			<Input 
-				placeholder="Confirmar nova senha"
-				secureTextEntry
-				autoCompleteType="password"
-				value={password_confirmation}
-				onChangeText={text => setPasswordConfirmation(text)}
+				placeholder="Token"
+				keyboardType="number-pad"
+				maxLength={5}
+				value={token}
+				onChangeText={text => setToken(text)}
 			/>
 
 			<Button
-				onPress={handleResetPassword}
+				onPress={handleSendToken}
 				loading={isLoading}
 				style={{
-					marginTop: 158
+					marginTop: 113
 				}}
 			>
-				Criar nova senha
+				Verificar
 			</Button>
 		</S.Container>
 	)

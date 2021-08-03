@@ -10,6 +10,7 @@ import { useAuth } from '../../hooks/useAuth'
 import logoImg from '../../assets/logo.png'
 
 import * as S from './styles'
+
 export function Login() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
