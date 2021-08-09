@@ -53,5 +53,5 @@ export const TextInput = styled.TextInput<TextInputProps>`
 export const CheckIcon = styled(AntDesign)`
 	position: absolute;
 	right: 20px;
-	top: 23.5px;
+	top: 22px;
 `

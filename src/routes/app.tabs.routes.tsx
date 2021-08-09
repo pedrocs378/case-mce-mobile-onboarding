@@ -71,7 +71,7 @@ export function AppTabsRoutes() {
 					tabBarIcon: ({ color, focused, size }) => 
 						focused 
 							? <Entypo name="minus" color={color} size={size} /> 
-							: <EvilIcons name="user" color={color} size={size} />
+							: <EvilIcons name="user" color={color} size={30} />
 				}}
 			/>
 		</Navigator>

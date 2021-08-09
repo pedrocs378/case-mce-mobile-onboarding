@@ -152,11 +152,16 @@ export function Profile() {
 					/>
 					<Input 
 						placeholder="E-mail"
+						keyboardType="email-address"
+						autoCompleteType="email"
+						autoCapitalize="none"
 						value={email}
 						onChangeText={text => setEmail(text)}
 					/>
 					<Input 
 						placeholder="Senha"
+						secureTextEntry
+						autoCompleteType="password"
 						value={password}
 						onChangeText={text => setPassword(text)}
 					/>
