@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import Toast from 'react-native-toast-message'
 import * as Yup from 'yup'
@@ -11,6 +11,7 @@ import { useAuth } from '../../hooks/useAuth'
 import logoImg from '../../assets/logo.png'
 
 import * as S from './styles'
+import { useIsComponentMounted } from '../../hooks/useIsComponentMounted'
 
 type ValidationTypes = 'email' | 'password'
 
@@ -40,6 +41,7 @@ export function Login() {
 	const navigation = useNavigation()
 
 	async function handleLogin() {
+
 		try {
 			setValidationErrors({})
 			setIsLoading(true)

@@ -22,7 +22,8 @@ interface SignInCredentials {
 interface AuthContextData {
 	user: User | undefined
 	loading: boolean
-	signIn: (credentials: SignInCredentials) => Promise<User>
+	isMounted: boolean
+	signIn: (credentials: SignInCredentials) => Promise<void>
 	signOut: () => Promise<void>
 	updateUserData: (data: User) => Promise<void>
 }
@@ -36,6 +37,7 @@ export const AuthContext = createContext({} as AuthContextData)
 export function AuthProvider({ children }: AuthProviderProps) {
 	const [user, setUser] = useState<User | undefined>()
 	const [loading, setLoading] = useState(true)
+	const [isMounted, setIsMounted] = useState(true)
 
 	useEffect(() => {
 		async function loadStoragedData(): Promise<void> {
@@ -50,8 +52,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			setLoading(false)
 		}
 
-		loadStoragedData()
-	}, [])
+		if (isMounted) {
+			loadStoragedData()
+		}
+
+		return () => setIsMounted(false)
+	}, [isMounted])
 
 	const signIn = useCallback(async ({ email, password }: SignInCredentials) => {
 		const response = await api.post('/sessions/user', {
@@ -61,11 +67,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
 		api.defaults.headers.authorization = `Bearer ${response.data.token}`
 
-		setUser(response.data.user)
 		await AsyncStorage.setItem('@CaseMCE:user', JSON.stringify(response.data.user))
 		await AsyncStorage.setItem('@CaseMCE:token', response.data.token)
 
-		return response.data.user
+		setUser(response.data.user)
 	}, [])
 
 	const signOut = useCallback(async () => {
@@ -81,7 +86,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	}, [])
 
 	return (
-		<AuthContext.Provider value={{ user, loading, signIn, signOut, updateUserData }}>
+		<AuthContext.Provider value={{ user, loading, isMounted, signIn, signOut, updateUserData }}>
 			{children}
 		</AuthContext.Provider>
 	)

@@ -65,7 +65,7 @@ export function CreateSchedule() {
 
 			Toast.show({
 				type: 'success',
-				position: 'bottom',
+				position: 'top',
 				text1: 'Parabéns',
 				text2: 
 					`Você acabou de reservar um horário com este personal trainer. 
@@ -76,12 +76,18 @@ export function CreateSchedule() {
 				index: 0,
 				routes: [{ name: 'AppTabs' }]
 			})
-		} catch {
+		} catch (err) {
+			let message = 'Aconteceu algo de errado. Tente novamente em instantes.'
+
+			if (err.response.data.message) {
+				message = err.response.data.message
+			}
+
 			Toast.show({
 				type: 'error',
-				position: 'bottom',
+				position: 'top',
 				text1: 'Oops! Desculpe',
-				text2: `Aconteceu algo de errado. Tente novamente em instantes.`
+				text2: message
 			})
 		}
 	}
