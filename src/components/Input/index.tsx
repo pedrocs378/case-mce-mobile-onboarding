@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useState } from "react"
-import { TextInput, TextInputProps } from 'react-native'
+import React, { useCallback, useState } from "react"
+import { TextInputProps, TouchableWithoutFeedback } from 'react-native'
 
 import { colors } from "../../styles/colors"
 
@@ -8,18 +8,20 @@ import * as S from './styles'
 type InputProps = TextInputProps & {
 	isValidated?: boolean
 	isErrored?: boolean
+	isPassword?: boolean
 	onInputBlur?: (fieldValue: string) => void
 }
 
 export function Input({ 
 	isValidated = false, 
 	isErrored = false,
+	isPassword = false,
 	value = '',
 	onInputBlur,
 	...rest 
 }: InputProps) {
-
 	const [isFocused, setIsFocused] = useState(false)
+	const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
 	const handleFocus = useCallback(() => {
 		setIsFocused(true)
@@ -45,10 +47,27 @@ export function Input({
 				onFocus={handleFocus}
 				onBlur={handleBlur}
 				value={value}
+				secureTextEntry={isPassword && !isPasswordVisible}
 				{...rest} 
 			/>
 			{isValidated && (
-				<S.CheckIcon name="checkcircle" size={18} color={colors.white} />
+				<S.AntDesignIcon
+					name="checkcircle"
+					size={18}
+					color={colors.white}
+					isPassword={isPassword}
+				/>
+			)}
+			{isPassword && (
+				<TouchableWithoutFeedback
+					onPress={() => setIsPasswordVisible(state => !state)}
+				>
+					<S.IoniconIcon 
+						name={isPasswordVisible ? 'eye-off' : 'eye'}
+						size={18}
+						color={colors.gray300}
+					/>
+				</TouchableWithoutFeedback>
 			)}
 		</S.Container>
 	)

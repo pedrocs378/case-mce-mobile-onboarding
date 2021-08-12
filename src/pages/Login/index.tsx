@@ -143,8 +143,9 @@ export function Login() {
 			/>
 			<Input
 				placeholder="Senha"
-				secureTextEntry
 				autoCompleteType="password"
+				autoCapitalize="none"
+				isPassword
 				value={password}
 				onChangeText={text => setPassword(text)}
 				onInputBlur={(value) => handleValidField('password', value)}

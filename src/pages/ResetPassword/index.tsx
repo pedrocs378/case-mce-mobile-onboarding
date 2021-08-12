@@ -73,15 +73,15 @@ export function ResetPassword() {
 			
 			<Input 
 				placeholder="Senha"
-				secureTextEntry
 				autoCompleteType="password"
+				isPassword
 				value={password}
 				onChangeText={text => setPassword(text)}
 			/>
 			<Input 
 				placeholder="Confirmar nova senha"
-				secureTextEntry
 				autoCompleteType="password"
+				isPassword
 				value={password_confirmation}
 				onChangeText={text => setPasswordConfirmation(text)}
 			/>

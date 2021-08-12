@@ -179,8 +179,8 @@ export function Register() {
 				/>
 				<Input 
 					placeholder="Senha"
-					secureTextEntry
 					autoCompleteType="password"
+					isPassword
 					value={password}
 					onChangeText={text => setPassword(text)}
 					onInputBlur={(value) => handleValidField('password', value)}
@@ -189,8 +189,8 @@ export function Register() {
 				/>
 				<Input 
 					placeholder="Confirmar senha"
-					secureTextEntry
 					autoCompleteType="password"
+					isPassword
 					value={password_confirmation}
 					onChangeText={text => setPasswordConfirmation(text)}
 					onInputBlur={(value) => handleValidField('password_confirmation', value)}

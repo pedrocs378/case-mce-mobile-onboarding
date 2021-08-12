@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components/native";
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign, Ionicons } from '@expo/vector-icons'
 
 import { colors } from "../../styles/colors";
 import { fonts } from "../../styles/fonts";
@@ -50,7 +50,17 @@ export const TextInput = styled.TextInput<TextInputProps>`
 	`}
 `
 
-export const CheckIcon = styled(AntDesign)`
+type AntDesignIconProps = {
+	isPassword: boolean
+}
+
+export const AntDesignIcon = styled(AntDesign)<AntDesignIconProps>`
+	position: absolute;
+	right: ${({ isPassword }) => isPassword ? '50px' : '20px'};
+	top: 22px;
+`
+
+export const IoniconIcon = styled(Ionicons)`
 	position: absolute;
 	right: 20px;
 	top: 22px;

@@ -160,8 +160,8 @@ export function Profile() {
 					/>
 					<Input 
 						placeholder="Senha"
-						secureTextEntry
 						autoCompleteType="password"
+						isPassword
 						value={password}
 						onChangeText={text => setPassword(text)}
 					/>
