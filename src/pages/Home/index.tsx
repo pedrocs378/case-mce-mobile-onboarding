@@ -24,16 +24,17 @@ type Provider = {
 
 export function Home() {
 	const [providers, setProviders] = useState<Provider[]>([])
+	const [textSearch, setTextSearch] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 
 	const { user, signOut } = useAuth()
 
-	useEffect(() => {
-		setIsLoading(true)
+	async function fetchProviders() {
+		try {
+			const response = await api.get<Provider[]>(`/providers`)
 
-		api.get<Provider[]>('/providers').then(response => {
 			setProviders(response.data)
-		}).catch(err => {
+		} catch (err) {
 			let message = 'Algo deu errado ao tentar carregar as informações.'
 
 			if (err.response.data.message) {
@@ -46,7 +47,40 @@ export function Home() {
 				text1: 'Erro',
 				text2: message
 			})
-		}).finally(() => setIsLoading(false))
+		}
+	}
+
+	async function handleSearch(text: string) {
+		setTextSearch(text)
+
+		try {
+			const response = await api.get<Provider[]>(`/providers?name=${text}`)
+
+			if (response.data.length === 0) {
+				await fetchProviders()
+			} else {
+				setProviders(response.data)
+			}
+		} catch (err) {
+			let message = 'Algo deu errado ao tentar carregar as informações.'
+
+			if (err.response.data.message) {
+				message = err.response.data.message
+			}
+
+			Toast.show({
+				type: 'error',
+				position: 'top',
+				text1: 'Erro',
+				text2: message
+			})
+		}
+	}
+
+	useEffect(() => {
+		setIsLoading(true)
+
+		fetchProviders().finally(() => setIsLoading(false))
 	}, [])
 
 	if (isLoading) return <LoadScreen />
@@ -68,7 +102,10 @@ export function Home() {
 				</S.LogoutButton>
 			</S.UserContainer>
 
-			<SearchInput />
+			<SearchInput 
+				value={textSearch} 
+				onChangeText={handleSearch} 
+			/>
 
 			<S.ProvidersText>Profissionais</S.ProvidersText>
 
