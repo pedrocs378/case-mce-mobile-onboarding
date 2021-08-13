@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { ScrollView } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import Toast from 'react-native-toast-message'
+import { formatPhoneNumber } from 'react-phone-number-input'
 import { Feather } from '@expo/vector-icons'
+import * as Yup from 'yup'
 
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
@@ -10,13 +12,22 @@ import { Header } from '../../components/Header'
 
 import { useAuth } from '../../hooks/useAuth'
 
+import { checkPhoneNumber } from '../../utils/checkPhoneNumber'
 import { api } from '../../services/api'
 
 import userPlaceholderImg from '../../assets/user-placeholder.png'
 
 import { colors } from '../../styles/colors'
-
 import * as S from './styles'
+
+const validationShape = {
+	name: Yup.string().required('Nome é obrigatório').min(3, 'Nome muito curto'),
+	email: Yup.string().required('Email é obrigatório').email('O email precisa ser válido'),
+	phone: Yup.string()
+		.required('Número do telefone é obrigatório')
+		.test('isPhoneNumber', 'Número inválido', (value) => checkPhoneNumber(value)),
+	password: Yup.string()
+}
 
 export function Profile() {
 	const { user, updateUserData } = useAuth()
@@ -40,6 +51,10 @@ export function Profile() {
 				} : {})
 			}
 
+			const schema = Yup.object().shape(validationShape)
+
+			await schema.validate(data)
+
 			const response = await api.put('/profile', data)
 
 			updateUserData(response.data)
@@ -51,6 +66,17 @@ export function Profile() {
 				text2: `Seu perfil foi atualizado`
 			})
 		} catch (err) {
+			if (err instanceof Yup.ValidationError) {
+				Toast.show({
+					type: 'error',
+					position: 'top',
+					text1: 'Erro',
+					text2: err.message
+				})
+
+				return
+			}
+
 			let message = 'Não foi possível alterar suas informações, tente novamente mais tarde.'
 
 			if (err.response.data.message) {
@@ -118,6 +144,12 @@ export function Profile() {
 		}
 	}
 
+	const formattedPhone = useMemo(() => {
+		const output = formatPhoneNumber(`+55${phone}`)
+
+		return output.trim() ? output : phone
+	}, [phone])
+
 	return (
 		<ScrollView showsVerticalScrollIndicator={false}>
 			<S.Container>
@@ -147,7 +179,7 @@ export function Profile() {
 					/>
 					<Input 
 						placeholder="Número do telefone"
-						value={phone}
+						value={formattedPhone}
 						onChangeText={text => setPhone(text)}
 					/>
 					<Input 

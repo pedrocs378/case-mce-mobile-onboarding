@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Toast from 'react-native-toast-message'
+import { formatPhoneNumber } from 'react-phone-number-input'
 import * as Yup from 'yup'
 
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 
+import { checkPhoneNumber } from '../../utils/checkPhoneNumber'
 import { api } from '../../services/api'
 
 import * as S from './styles'
@@ -24,7 +26,9 @@ type ValidationError = {
 const validationShape = {
 	name: Yup.string().required('Nome é obrigatório').min(3, 'Nome muito curto'),
 	email: Yup.string().required('Email é obrigatório').email('O email precisa ser válido'),
-	phone: Yup.string().required('Número do telefone é obrigatório').min(11, 'Número muito curto'),
+	phone: Yup.string()
+		.required('Número do telefone é obrigatório')
+		.test('isPhoneNumber', 'Número inválido', (value) => checkPhoneNumber(value)),
 	password: Yup.string().required('Senha obrigatória').min(6, 'A senha precisa ter no minímo 6 caracteres'),
 	password_confirmation: Yup.string()
 		.oneOf([Yup.ref('password'), null], 'As senhas precisam ser iguais')
@@ -145,6 +149,12 @@ export function Register() {
 		}
 	}
 
+	const formattedPhone = useMemo(() => {
+		const output = formatPhoneNumber(`+55${phone}`)
+
+		return output.trim() ? output : phone
+	}, [phone])
+
 	return (
 		<ScrollView contentContainerStyle={{ flex: 1 }}>
 			<S.Container>
@@ -160,9 +170,9 @@ export function Register() {
 				<Input 
 					placeholder="Telefone"
 					keyboardType="phone-pad"
-					value={phone}
+					value={formattedPhone}
 					onChangeText={text => setPhone(text)}
-					onInputBlur={(value) => handleValidField('phone', value)}
+					onInputBlur={() => handleValidField('phone', phone)}
 					isValidated={!!validatedFields['phone']}
 					isErrored={!!validationErrors['phone']}
 				/>

@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { FlatList } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { formatPhoneNumber } from 'react-phone-number-input'
 import { Ionicons } from '@expo/vector-icons'
 import Toast from 'react-native-toast-message'
 import { format, addHours } from 'date-fns'
@@ -86,6 +87,12 @@ export function PersonalDetails() {
 			.finally(() => setIsLoading(false))
 	}, [id])
 
+	const formattedPhone = useMemo(() => {
+		const output = formatPhoneNumber(`+55${personal.phone}`)
+
+		return output.trim() ? output : personal.phone
+	}, [personal.phone])
+
 	if (isLoading) return <LoadScreen />
 
 	return (
@@ -97,7 +104,7 @@ export function PersonalDetails() {
 			<S.Content>
 				<S.PersonalInfos>
 					<S.PersonalName>{personal.name}</S.PersonalName>
-					<S.PersonalPhone>Telefone: {personal.phone}</S.PersonalPhone>
+					<S.PersonalPhone>Telefone: {formattedPhone}</S.PersonalPhone>
 
 					<FlatList
 						contentContainerStyle={{ paddingBottom: 10 }}
